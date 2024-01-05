@@ -1,9 +1,9 @@
-import { LOAD_ITEMS, REMOVE_ITEM, ADD_ITEM } from './items';
-import { PokemonApiUtil } from '../util/pokemon_api_util';
+import { LOAD_ITEMS, REMOVE_ITEM, ADD_ITEM } from "./items";
+import * as PokemonApiUtil from "../util/pokemon_api_util";
 
-const LOAD = 'pokemon/LOAD';
-const LOAD_TYPES = 'pokemon/LOAD_TYPES';
-const ADD_ONE = 'pokemon/ADD_ONE';
+const LOAD = "pokemon/LOAD";
+const LOAD_TYPES = "pokemon/LOAD_TYPES";
+const ADD_ONE = "pokemon/ADD_ONE";
 
 const load = (list) => ({
   type: LOAD,
@@ -20,8 +20,18 @@ const addOnePokemon = (pokemon) => ({
   pokemon,
 });
 
+export const newPokemon = (pokemon) => async (dispatch) => {
+  const response = await PokemonApiUtil.createPokemon(pokemon);
+
+  if (response.ok) {
+    const details = await response.json();
+    dispatch(addOnePokemon(details));
+    return details;
+  }
+};
+
 export const getOnePokemon = (pokemon) => async (dispatch) => {
-  const response = await PokemonApiUtil(pokemon);
+  const response = await PokemonApiUtil.singlePokemon(pokemon);
 
   const details = await response.json();
   dispatch(addOnePokemon(details));

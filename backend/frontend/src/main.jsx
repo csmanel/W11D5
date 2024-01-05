@@ -4,11 +4,13 @@ import { Provider } from 'react-redux';
 import App from './App';
 import './index.css';
 import configureStore from './store';
+import { getOnePokemon } from './store/pokemon';
 
 const store = configureStore();
 
-if (import.meta.env.MODE !== "production") {
+if (import.meta.env.MODE !== 'production') {
   window.store = store;
+  window.getOnePokemon = getOnePokemon;
 }
 
 ReactDOM.createRoot(document.getElementById('root')).render(
